@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CODSOFT Internship — AnitusA</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:        #0a0a0f;
+      --surface:   #13131a;
+      --border:    #222230;
+      --text:      #e8e8f0;
+      --muted:     #6b6b80;
+      --c1:        #7c6bff;   /* landing  — violet */
+      --c2:        #00c9a7;   /* portfolio — teal  */
+      --c3:        #ff6b6b;   /* calculator — coral */
+      --mono: 'Space Mono', monospace;
+      --sans: 'Space Grotesk', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ── HEADER ── */
+    header {
+      padding: 3.5rem 2rem 0;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 6vw, 3.8rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+    }
+
+    h1 span {
+      background: linear-gradient(90deg, var(--c1), var(--c2), var(--c3));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .subtitle {
+      margin-top: 1.1rem;
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 480px;
+      line-height: 1.65;
+    }
+
+    /* ── GRID ── */
+    main {
+      flex: 1;
+      padding: 3.5rem 2rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    /* ── CARD ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem 1.75rem 1.75rem;
+      text-decoration: none;
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      border-radius: inherit;
+    }
+
+    .card:hover { transform: translateY(-5px); }
+    .card:focus-visible { outline: 2px solid var(--c1); outline-offset: 3px; }
+
+    /* per-card accent */
+    .card[data-accent="1"] { --accent: var(--c1); }
+    .card[data-accent="2"] { --accent: var(--c2); }
+    .card[data-accent="3"] { --accent: var(--c3); }
+
+    .card:hover { border-color: var(--accent); box-shadow: 0 0 32px -8px var(--accent); }
+    .card::before { background: radial-gradient(ellipse at top left, var(--accent), transparent 70%); }
+    .card:hover::before { opacity: 0.07; }
+
+    /* tag strip */
+    .tag-row {
+      display: flex;
+      gap: 0.4rem;
+      flex-wrap: wrap;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.25rem 0.6rem;
+      border-radius: 99px;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+      background: transparent;
+    }
+
+    /* task number */
+    .task-no {
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+    }
+
+    /* icon blob */
+    .icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--accent) 15%, transparent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+    }
+
+    .card-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+      flex: 1;
+    }
+
+    .card-cta {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent);
+      margin-top: 0.25rem;
+      transition: gap 0.2s ease;
+    }
+
+    .card:hover .card-cta { gap: 0.75rem; }
+
+    .arrow {
+      display: inline-block;
+      font-size: 1rem;
+      transition: transform 0.2s ease;
+    }
+
+    .card:hover .arrow { transform: translateX(4px); }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 1.5rem 2rem 2.5rem;
+      font-family: var(--mono);
+      font-size: 0.7rem;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+    }
+
+    footer a {
+      color: var(--muted);
+      text-decoration: underline;
+      text-underline-offset: 3px;
+    }
+
+    footer a:hover { color: var(--text); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 500px) {
+      header { padding-top: 2.5rem; }
+      main { padding: 2rem 1rem 3rem; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .card, .card-cta, .arrow, .card::before { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <p class="eyebrow">CODSOFT &nbsp;·&nbsp; Web Development Internship</p>
+    <h1>Three tasks.<br /><span>One journey.</span></h1>
+    <p class="subtitle">Projects built with HTML, CSS &amp; JavaScript during the CODSOFT virtual internship by AnitusA.</p>
+  </header>
+
+  <main>
+
+    <!-- Task 01 — Landing Page -->
+    <a class="card" href="CODSOFT_01/index.html" data-accent="1">
+      <div class="task-no">TASK 01</div>
+      <div class="icon">🏠</div>
+      <div class="tag-row">
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+      </div>
+      <div class="card-title">Landing Page</div>
+      <p class="card-desc">A responsive, visually compelling landing page — sections, hero, and footer styled with a clean CSS layout.</p>
+      <div class="card-cta">Open project <span class="arrow">→</span></div>
+    </a>
+
+    <!-- Task 02 — Portfolio -->
+    <a class="card" href="CODSOFT_02/index.html" data-accent="2">
+      <div class="task-no">TASK 02</div>
+      <div class="icon">🧑‍💼</div>
+      <div class="tag-row">
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+      </div>
+      <div class="card-title">Portfolio Website</div>
+      <p class="card-desc">A personal portfolio showcasing skills, projects, and contact info — structured with semantic HTML and polished CSS.</p>
+      <div class="card-cta">Open project <span class="arrow">→</span></div>
+    </a>
+
+    <!-- Task 03 — Calculator -->
+    <a class="card" href="CODSOFT_03/index.html" data-accent="3">
+      <div class="task-no">TASK 03</div>
+      <div class="icon">🧮</div>
+      <div class="tag-row">
+        <span class="tag">HTML</span>
+        <span class="tag">CSS</span>
+        <span class="tag">JavaScript</span>
+      </div>
+      <div class="card-title">Calculator</div>
+      <p class="card-desc">An interactive browser calculator with arithmetic operations, CSS Grid layout, and JavaScript event-driven logic.</p>
+      <div class="card-cta">Open project <span class="arrow">→</span></div>
+    </a>
+
+  </main>
+
+  <footer>
+    Built by <a href="https://github.com/AnitusA" target="_blank" rel="noopener">AnitusA</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/AnitusA/CODSOFT_INTERN" target="_blank" rel="noopener">View on GitHub</a>
+  </footer>
+
+</body>
+</html>
